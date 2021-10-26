@@ -1,0 +1,36 @@
+<div class="spacing">
+  <!-- List of Text Items -->
+  <ion-row>
+    <ion-col size="10" >
+      <form  #f="ngForm"  (ngSubmit)="onSubmit(f)">
+      <ion-item>
+        <ion-label position="floating">Post</ion-label>
+        <ion-textarea [class.bold]="myclass"  [class.italic]="italics" [class.clear]="clears" name="post" ngModel required #post="ngModel" ></ion-textarea>
+      </ion-item>
+      <div class="custom">
+        <ion-button (click)="bold()" fill="outline" color="primary" type="button">bold</ion-button>
+        <ion-button (click)="italic()" fill="outline" color="primary" >Italic</ion-button>
+        <ion-button  fill="outline"  (click)="clear()" color="primary" type="reset" >clear</ion-button>
+      </div>
+      <ion-button color="primary "  type="submit">Submit</ion-button>
+    </form>
+    </ion-col>
+
+
+  <!-- List of Input Items -->
+  <ion-col size-md="12"  >
+  <ion-list>
+    <ion-item *ngFor="let item of posts">
+      <ion-avatar slot="start">
+        <img src="https://picsum.photos/200/300">
+      </ion-avatar>
+      <ion-label>
+        <h2 [class.bold]="item.bold" [class.italic]="item.italic"    >{{item.title}}</h2>
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+</ion-col>
+</ion-row>
+
+</div>
