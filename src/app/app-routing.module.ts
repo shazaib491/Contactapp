@@ -3,6 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { ActionsComponent } from './actions/actions.component';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { GalleryComponent } from './gallery/gallery.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { PostComponent } from './post/post.component';
@@ -11,6 +12,10 @@ import { RegisterComponent } from './register/register.component';
 const routes: Routes = [
   {
     path: '',
+    component: HomeComponent,
+  },
+  {
+    path: 'home',
     component: HomeComponent,
   },
   {
@@ -28,6 +33,10 @@ const routes: Routes = [
   {
     path: 'actions',
     component: ActionsComponent,
+  },
+  {
+    path: 'gallery',
+    component: GalleryComponent,
   },
   {
     path: 'register',

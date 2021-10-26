@@ -9,12 +9,15 @@
   <ion-row class="ion-justify-content-center">
     <ion-col size-md="6">
   <ion-list-header   >
+
     <ion-button routerLink="/">Home</ion-button>
-    <ion-button routerLink="/dashboard">Dashboard</ion-button>
-    <ion-button routerLink="/posts">Post</ion-button>
-    <ion-button routerLink="/actions">Actions</ion-button>
-    <ion-button routerLink="/login">login</ion-button>
-    <ion-button routerLink="/register">Register</ion-button>
+    <ion-button *ngIf="isauths" routerLink="/dashboard">Dashboard</ion-button>
+    <ion-button *ngIf="isauths" routerLink="/posts">Post</ion-button>
+    <ion-button *ngIf="isauths" routerLink="/actions">Actions</ion-button>
+    <ion-button *ngIf="isauths" routerLink="/gallery">Gallery</ion-button>
+    <ion-button  *ngIf="isauths" (click)="logout()">Logout</ion-button>
+    <ion-button *ngIf="!isauths" routerLink="/login">login</ion-button>
+    <ion-button  *ngIf="!isauths" routerLink="/register">Register</ion-button>
   </ion-list-header>
 </ion-col>
 </ion-row>

@@ -6,9 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./actions.component.scss'],
 })
 export class ActionsComponent implements OnInit {
-
+isTrue=true;
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(()=>{
+      this.isTrue=false;
+    },5000);
+  }
 
 }

@@ -17,12 +17,16 @@ import { HomeComponent } from "./home/home.component";
 import { LoginComponent } from "./login/login.component";
 import { PostComponent } from "./post/post.component";
 import { RegisterComponent } from "./register/register.component";
+import { GalleryComponent } from "./gallery/gallery.component";
 import { HttpClientModule } from "@angular/common/http";
 import { PostService } from "./post.service";
 import { AngularFireModule } from "@angular/fire/compat";
 import { AngularFireDatabaseModule } from "@angular/fire/compat/database";
 import { environment } from "src/environments/environment";
+import { ActionsComponent } from "./actions/actions.component";
 // import { AngularFireModule } from '@angular/fire';
+import { Camera } from '@ionic-native/camera/ngx';
+
 
 @NgModule({
   declarations: [
@@ -33,6 +37,8 @@ import { environment } from "src/environments/environment";
     DashboardComponent,
     HeaderComponent,
     RegisterComponent,
+    ActionsComponent,
+    GalleryComponent
   ],
   entryComponents: [],
   imports: [
@@ -47,7 +53,8 @@ import { environment } from "src/environments/environment";
   ],
   providers: [
     PostService,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Camera,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent],
 })

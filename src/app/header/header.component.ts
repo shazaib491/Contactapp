@@ -1,14 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { PostService } from "../post.service";
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.scss"],
 })
 export class HeaderComponent implements OnInit {
+  isauths = false;
+  constructor(private auth: PostService,private router:Router) {}
 
-  constructor() { }
+  ngOnInit() {
+    this.auth.getAuthStatusListener().subscribe(
+      (res) => {
+        this.isauths = res;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 
-  ngOnInit() {}
-
+  logout() {
+    this.auth.logout();
+  }
 }

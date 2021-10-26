@@ -3,6 +3,7 @@ import { NgForm } from "@angular/forms";
 import { PostService } from "../post.service";
 
 @Component({
+  // eslint-disable-next-line @typescript-eslint/quotes
   selector: "app-post",
   templateUrl: "./post.component.html",
   styleUrls: ["./post.component.scss"],
@@ -16,7 +17,7 @@ export class PostComponent implements OnInit {
   constructor(private postServ: PostService) {}
 
   ngOnInit() {
-    this.postServ.save();
+    // this.postServ.save();
   }
 
   onSubmit(event: NgForm) {

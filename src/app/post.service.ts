@@ -5,6 +5,7 @@ import { HttpClient } from "@angular/common/http";
 import {
   AngularFirestore,
   AngularFirestoreCollection,
+  // eslint-disable-next-line @typescript-eslint/quotes
 } from "@angular/fire/compat/firestore";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
@@ -12,6 +13,8 @@ import { Subject } from "rxjs";
 export interface AuthData {
   email: string;
   password: string;
+  cpassword?: string;
+  mobile?: string;
 }
 
 @Injectable({
@@ -21,7 +24,7 @@ export class PostService {
   public token?: any;
   private authStatusListner = new Subject<boolean>();
   private isAuthenticated = false;
-  isTimer: any;
+  // isTimer: string;
   private userId?: any;
   // private BACKEND_URL = 'user/';
   constructor(
@@ -44,13 +47,26 @@ export class PostService {
     return this.authStatusListner.asObservable();
   }
 
-  createUser(email: string, password: string) {
+  createUser(
+    email: string,
+    password: string,
+    mobile: string,
+    cpassword: string
+  ) {
     const authData: AuthData = {
-      email: email,
-      password: password,
+      email,
+      mobile,
+      password,
+      cpassword,
     };
-    localStorage.setItem("email",email);
-    localStorage.setItem("password",password);
+    if (password !== cpassword) {
+      return this.authStatusListner.next(false);
+    }
+    const id = Math.floor(Math.random() * 100);
+    localStorage.setItem("email", email);
+    localStorage.setItem("mobile", mobile);
+    localStorage.setItem("password", password);
+    localStorage.setItem("userId", " " + id + " ");
     return authData;
     // this.http
     //   .post(environment.apiUrl + this.BACKEND_URL + 'singup', authData)
@@ -65,21 +81,27 @@ export class PostService {
   }
 
   login(email: string, password: string) {
-    const authData: AuthData = {
-      email: "admin@gmail.com",
-      password: "admin@123",
+    const authData: any = {
+      email,
+      password,
     };
-    const emails=localStorage.getItem("email");
-    localStorage.getItem("password");
-    this.isAuthenticated = true;
-    this.userId = 1;
-    this.authStatusListner.next(true);
-    this.saveAuthData(this.token, this.userId);
+    const emails = localStorage.getItem("email");
+    const passwords = localStorage.getItem("password");
 
-    return authData;
+    if (emails == email && passwords == password) {
+      this.isAuthenticated = true;
+      this.userId = localStorage.getItem("userId");
+      this.authStatusListner.next(true);
+      this.token = "12345";
+      this.saveAuthData(this.token, this.userId);
+      return authData;
+    } else {
+      return false;
+    }
+
     // this.http
     //   .post<{ token: string; expiresIn: number; userid: string }>(
-    //     environment.apiUrl + this.BACKEND_URL + "login",
+    //     environment.apiUrl + this.BACKEND_URL + 'login',
     //     authData
     //   )
     //   .subscribe(
@@ -94,7 +116,7 @@ export class PostService {
     //           now.getTime() + response.expiresIn * 1000
     //         );
     //         this.setAuthTimer(response.expiresIn);
-    //         this.router.navigate(["/"]);
+    //         this.router.navigate(['/']);
     //       }
     //     },
     //     (error) => {
@@ -110,11 +132,11 @@ export class PostService {
     const now = new Date();
     // const expiresIn = authInformation!.expiresDate.getTime() - now.getTime();
     // if (expiresIn > 0) {
-      this.token = authInformation?.token;
-      this.isAuthenticated = true;
-      this.userId = authInformation.userId;
-      // this.setAuthTimer(expiresIn / 1000);
-      this.authStatusListner.next(true);
+    this.token = authInformation?.token;
+    this.isAuthenticated = true;
+    this.userId = authInformation.userId;
+    // this.setAuthTimer(expiresIn / 1000);
+    this.authStatusListner.next(true);
     // }
   }
 
@@ -125,20 +147,21 @@ export class PostService {
     this.router.navigate(["/"]);
     this.userId = null;
     this.clearAuthData();
-    clearTimeout(this.isTimer);
+
+    // clearTimeout(this.isTimer);
   }
 
   setAuthTimer(duration: number) {
     console.log("Seting Timer :", +duration);
-    this.isTimer = setTimeout(() => {
-      this.logout();
-    }, duration * 1000);
+    // this.isTimer = setTimeout(() => {
+    //   this.logout();
+    // }, duration * 1000);
   }
 
   private saveAuthData(token: string, userId: string) {
     localStorage.setItem("token", token);
-    let dt = new Date().toISOString();
-    // localStorage.setItem("expiration", dt);
+    // let dt = new Date().toISOString();
+    // localStorage.setItem('expiration', dt);
     localStorage.setItem("userId", userId);
   }
 
@@ -150,27 +173,27 @@ export class PostService {
 
   private getAuthData() {
     const token = localStorage.getItem("token");
-    // const expiresDate = localStorage.getItem("expiration");
+    // const expiresDate = localStorage.getItem('expiration');
     const userId = localStorage.getItem("userId");
     if (!token) {
       return;
     }
     return {
-      token: token,
-      // expiresDate: new Date(expiresDate || ""),
-      userId: userId,
+      token,
+      // expiresDate: new Date(expiresDate || ''),
+      userId,
     };
   }
 
-  save() {
-    this.firestore
-      .collection("contactapp-cae9d-default-rtdb")
-      .add({ title: "admin" })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  // save() {
+  //   this.firestore
+  //     .collection("contactapp-cae9d-default-rtdb")
+  //     .add({ title: "admin" })
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
 }

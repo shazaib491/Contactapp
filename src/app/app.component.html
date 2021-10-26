@@ -1,4 +1,13 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
   <app-header></app-header>
+  <ion-router-outlet></ion-router-outlet>
+  <ion-button type="buttton" (click)="getGallery()">Gallery</ion-button>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button (click)="getCamera()">
+        <ion-icon name="add-outline">
+        </ion-icon>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
 </ion-app>
